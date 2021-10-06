@@ -62,7 +62,16 @@ public class PlayerController : MonoBehaviour
             // Make the transform look in the direction.
             transform.forward = direction;
 
-            crosshair.transform.position = position;
+            var ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out var hitInfo, Mathf.Infinity, groundMask))
+            {
+                crosshair.transform.position = position;
+            }
+            else
+            {
+                crosshair.transform.position = Vector3.zero;
+            }
         }
     }
 
@@ -71,7 +80,7 @@ public class PlayerController : MonoBehaviour
     {
             var ray = mainCamera.ScreenPointToRay(Input.mousePosition);
 
-            if (Physics.Raycast(ray, out var hitInfo, Mathf.Infinity, groundMask))
+            if (Physics.Raycast(ray, out var hitInfo, Mathf.Infinity))
             {
                 // The Raycast hit something, return with the position.
                 return (success: true, position: hitInfo.point);
