@@ -36,6 +36,7 @@ public class PlayerWeapon : MonoBehaviour
         bullet.GetComponent<Rigidbody>().AddForce(bulletSpawn.forward * bulletSpeed, ForceMode.Impulse);
 
         StartCoroutine(DestroyBulletAfterTime(bullet, lifeTime));
+
     }
 
     private IEnumerator DestroyBulletAfterTime(GameObject bullet, float delay)
