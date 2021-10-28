@@ -14,7 +14,12 @@ public class PlayerController : MonoBehaviour
 
     public GameObject crosshair;
     public float moveSpeed = 20f;
-    public float rotationSpeed = 15f;
+    public float rotationSpeed = 10f;
+    public float dashSpeed;
+    public int dashTime;
+    public bool canDash = true;
+
+    public ParticleSystem dashEffect;
     
     private Camera mainCamera;
 
@@ -35,7 +40,8 @@ public class PlayerController : MonoBehaviour
     {
         Move();
         Rotate();
-        Aim();
+        //Aim();
+        StartCoroutine(Dash());
     }
 
     void Move()
@@ -67,6 +73,46 @@ public class PlayerController : MonoBehaviour
         Quaternion playerRotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
         transform.rotation = playerRotation;
+    }
+
+    /* void Dash()
+    {        
+        if (Input.GetKeyDown("left shift")){
+            var (success, position) = GetMousePosition();
+            if (success)
+            {
+                canDash();
+                // Calculate the direction
+                var direction = position - transform.position;
+                direction.y = 0;
+                transform.forward = direction;
+
+                player.AddForce(transform.forward * dashSpeed, ForceMode.Impulse);
+            }
+        }
+    } */
+
+    IEnumerator Dash()
+    {        
+        if (Input.GetKeyDown("left shift") && canDash == true){
+            dashEffect.Play();
+            var (success, position) = GetMousePosition();
+            if (success)
+            {
+                // Calculate the direction
+                var direction = position - transform.position;
+                direction.y = 0;
+                transform.forward = direction;
+
+                player.AddForce(transform.forward * dashSpeed, ForceMode.Impulse);
+
+                canDash = false;
+
+                yield return new WaitForSeconds(5);
+
+                canDash = true;
+            }
+        }
     }
 
     //Aim with the mouse

@@ -7,8 +7,8 @@ public class BulletController : MonoBehaviour
     [SerializeField]
     private GameObject bullet;
 
-    private float speed = 50f;
-    private float timeToDestroy = 3f;
+    //private float speed = 50f;
+    //private float timeToDestroy = 3f;
 
     public ParticleSystem muzzleFlash;
 
@@ -31,7 +31,7 @@ public class BulletController : MonoBehaviour
     {
         transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
         if(Vector3.Distance(transform.position, target) < .01f) {
-            Destrou(gameObject);
+            Destroy(gameObject);
         }
     } */
 }
